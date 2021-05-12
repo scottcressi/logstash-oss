@@ -20,6 +20,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     env:
+      GH_SHA: ${{ github.sha }}
       GH_REPO: ${{ github.repository }}
     steps:
       # Check out code
@@ -47,7 +48,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.GH_REPO }}:latest
+          tags: ${{ env.GH_REPO }}:${{ env.GH_SHA }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
         # This ugly bit is necessary if you don't want your cache to grow forever
